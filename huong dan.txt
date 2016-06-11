@@ -1,0 +1,3 @@
+Pirate: anh 1
+Player: anh 474
+Boom: anh 350
