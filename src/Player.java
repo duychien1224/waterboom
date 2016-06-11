@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by admin on 6/11/2016.
  */
-public class Player implements IFighter {
+public class Player {
     public int positionX;
     public int positionY;
     public int speedX;
@@ -63,8 +63,5 @@ public class Player implements IFighter {
         g.drawImage(this.image, this.positionX, this.positionY, null);
     }
 
-    @Override
-    public void fire() {
-        listBooms.add(new Boom(positionX,positionY));
-    }
+
 }
