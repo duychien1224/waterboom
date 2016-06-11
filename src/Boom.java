@@ -8,6 +8,7 @@ import java.io.IOException;
  * Created by admin on 6/11/2016.
  */
 public class Boom {
+
     IBoom iBoom;
     private int positionX;
     private int positionY;
@@ -56,4 +57,5 @@ public class Boom {
     public void update(){
 
     }
+
 }
