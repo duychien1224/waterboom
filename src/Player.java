@@ -3,65 +3,66 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by admin on 6/11/2016.
  */
-public class Player {
+public class Player implements IDropBoom {
+    Boom boom;
     public int positionX;
     public int positionY;
     public int speedX;
     public int speedY;
     public BufferedImage image;
 
-    public ArrayList<Boom> listBooms;
-
-    public Player(int positionX, int positionY)  {
+    public Player(int positionX, int positionY) {
         this.positionX = positionX;
         this.positionY = positionY;
         try {
-            this.image = ImageIO.read(new File("Resources/playerquayxuong.png"));
+            this.image = ImageIO.read(new File("Resources/png/playerquayxuong.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public Player() {
-        this.positionX = 350;
-        this.positionY = 300;
-        try {
-            this.image = ImageIO.read(new File("Resources/playerquayxuong.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public void update(){
+
+    public void update() {
         this.positionX += this.speedX;
         this.positionY += this.speedY;
-        if (speedX>0) try {
-            this.image = ImageIO.read(new File("Resources/playerquayphai.png"));
+        if (speedX > 0) try {
+            this.image = ImageIO.read(new File("Resources/png/playerquayphai.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (speedX<0) try {
-            this.image = ImageIO.read(new File("Resources/playerquaytrai.png"));
+        if (speedX < 0) try {
+            this.image = ImageIO.read(new File("Resources/png/playerquaytrai.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (speedY>0) try {
-            this.image = ImageIO.read(new File("Resources/playerquayxuong.png"));
+        if (speedY > 0) try {
+            this.image = ImageIO.read(new File("Resources/png/playerquayxuong.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (speedY<0) try {
-            this.image = ImageIO.read(new File("Resources/playerquaylen.png"));
+        if (speedY < 0) try {
+            this.image = ImageIO.read(new File("Resources/png/playerquaylen.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void draw(Graphics g){
+
+    public void draw(Graphics g) {
         g.drawImage(this.image, this.positionX, this.positionY, null);
+        if (boom!=null)
+        boom.draw(g);
     }
 
+    @Override
+    public void dropBomb() {
+        boom= Boom.getInstance(this.positionX, this.positionY+45);
+    }
 
+    @Override
+    public void deleteBoom(Boom boom) {
+
+    }
 }

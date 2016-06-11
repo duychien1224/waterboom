@@ -15,12 +15,13 @@ public class GameWindow extends Frame implements Runnable {
     Image background;
     BufferedImage bufferedImage;
     Player player1;
-
+    House house;
+    Tree[] ArrayTree= new Tree[10];
+    Brick[] ArrayBrick = new Brick[10];
     public GameWindow() {// constructor
-        this.setSize(750, 750);
+        this.setSize(750, 650);
         this.setTitle("Boom-Techkids");
         this.setVisible(true);
-
         this.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -57,8 +58,12 @@ public class GameWindow extends Frame implements Runnable {
 
             }
         });// closing window
-
         player1 = new Player(300,400);
+        house = new House(200, 200, "Resources/png/house.png");
+        ArrayTree[1] = new Tree(200, 500, "Resources/png/tree.png");
+        ArrayBrick[1] = new Brick(400, 200, "Resources/png/brick.png");
+        ArrayBrick[2] = new Brick(400, 290, "Resources/png/brick.png");
+        ArrayBrick[3] = new Brick(400, 400, "Resources/png/brick.png");
         this.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -69,20 +74,21 @@ public class GameWindow extends Frame implements Runnable {
             public void keyPressed(KeyEvent e) {
                 //phim duoc an va giu
                 switch (e.getKeyCode()){
-                    case KeyEvent.VK_W:
+                    case KeyEvent.VK_UP:
                         player1.speedY = -3;
                         break;
-                    case KeyEvent.VK_A:
+                    case KeyEvent.VK_LEFT:
                         player1.speedX = -3;
                         break;
-                    case KeyEvent.VK_S:
+                    case KeyEvent.VK_DOWN:
                         player1.speedY = 3;
                         break;
-                    case KeyEvent.VK_D:
+                    case KeyEvent.VK_RIGHT:
                         player1.speedX = 3;
                         break;
-//                    case KeyEvent.VK_SPACE:
-//                        break;
+                    case KeyEvent.VK_SPACE:
+                        player1.dropBomb();
+                        break;
                 }
             }
             @Override
@@ -91,27 +97,30 @@ public class GameWindow extends Frame implements Runnable {
                 player1.speedX = 0;
                 player1.speedY = 0;
             }
-        });
+        });// catch key and move
         try {
-            background = ImageIO.read(new File("Resources/background.jpg"));
+            background = ImageIO.read(new File("Resources/png/background.png"));// set background
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public void gameUpdate() {
-        // do something here before repaint method reDraw components
-//        System.out.println("Thay doi cac thuoc tinh cua doi tuong trươc ve lai");
         player1.update();
     }
 
     @Override
     public void update(Graphics g) {
         if(bufferedImage == null){
-            bufferedImage = new BufferedImage(750, 750, 1);
+            bufferedImage = new BufferedImage(750, 650, 1);
         }
         Graphics bufferedGraphics = bufferedImage.getGraphics();
         bufferedGraphics.drawImage(background, 0, 0, null);
-        player1.draw(bufferedGraphics);
+        player1.draw(bufferedGraphics);// draw player1
+        house.draw(bufferedGraphics);
+        ArrayBrick[1].draw(bufferedGraphics);
+        ArrayBrick[2].draw(bufferedGraphics);
+        ArrayBrick[3].draw(bufferedGraphics);
+        ArrayTree[1].draw(bufferedGraphics);
         g.drawImage(bufferedImage, 0, 0,null);
 
     }

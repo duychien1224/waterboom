@@ -1,7 +1,7 @@
 /**
  * Created by Chihirohaku on 6/11/2016.
  */
-public interface IBoom {
-    void bomb();
+public interface IDropBoom {
+    void dropBomb();
     void deleteBoom(Boom boom);
 }
