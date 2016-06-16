@@ -3,53 +3,49 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
- * Created by admin on 6/11/2016.
+ * Created by Admin on 6/13/2016.
  */
-public class Boom implements subjectBomb {
-    private static Boom instance;
-     BufferedImage image;
-    private int positionX;
-    private int positionY;
+public abstract class Boom implements ISubject {
+    public int positionX;
+    public int positionY;
+    public BufferedImage image;
 
-    private Boom(int positionX, int positionY) {
-
+    ArrayList<IObsever> iObsevers;
+    public Boom(int positionX, int positionY) {
+        this.positionX = positionX;
+        this.positionY = positionY;
         try {
-            image = ImageIO.read(new File("Resources/png/boom.png"));
+            this.image = ImageIO.read(new File("Resources/png/boom.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.positionX = positionX;
-        this.positionY = positionY;
+        iObsevers = new ArrayList<IObsever>();
     }
-    public static Boom getInstance(int x, int y){
-        if (instance==null){
-            instance = new Boom(x, y);
-        }
-        return instance;
 
-    }
     public void draw(Graphics g) {
-        g.drawImage(image, this.positionX, this.positionY, null);
-    }
-
-    public void update() {
-    // do somthing here :)) later
+        g.drawImage(this.image, this.positionX, this.positionY, null);
     }
 
     @Override
-    public void registerBomb() {
-
+    public void register(IObsever iObsever) {
+        iObsevers.add(iObsever);
     }
 
     @Override
-    public void cancelBomb() {
-
+    public void cancel(IObsever iObsever) {
+        iObsevers.remove(iObsevers);
     }
 
     @Override
-    public void notifyBomb() {
+    public void notifyBarrier() throws IOException, InterruptedException {
+        for (IObsever iObsever : iObsevers) {
+            iObsever.explosive();// denpend on object, will create appropriate method inside ExplosiveBarrier class
+
+
+        }
 
     }
 }

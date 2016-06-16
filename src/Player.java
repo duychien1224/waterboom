@@ -1,68 +1,29 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
 /**
- * Created by admin on 6/11/2016.
+ * Created by Admin on 6/15/2016.
  */
-public class Player implements IDropBoom {
-    Boom boom;
-    public int positionX;
-    public int positionY;
-    public int speedX;
-    public int speedY;
-    public BufferedImage image;
+public class Player extends Character {
+    ArrayList<BoomPlayer> boomPlayers;
 
-    public Player(int positionX, int positionY) {
-        this.positionX = positionX;
-        this.positionY = positionY;
-        try {
-            this.image = ImageIO.read(new File("Resources/png/playerquayxuong.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Player(int positionX, int positionY, String pathImage) {
+        super(positionX, positionY, pathImage);
+        boomPlayers = new ArrayList<BoomPlayer>();
     }
 
-    public void update() {
-        this.positionX += this.speedX;
-        this.positionY += this.speedY;
-        if (speedX > 0) try {
-            this.image = ImageIO.read(new File("Resources/png/playerquayphai.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (speedX < 0) try {
-            this.image = ImageIO.read(new File("Resources/png/playerquaytrai.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (speedY > 0) try {
-            this.image = ImageIO.read(new File("Resources/png/playerquayxuong.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (speedY < 0) try {
-            this.image = ImageIO.read(new File("Resources/png/playerquaylen.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    @Override
     public void draw(Graphics g) {
         g.drawImage(this.image, this.positionX, this.positionY, null);
-        if (boom!=null)
-        boom.draw(g);
+        for (BoomPlayer boomPlayer : boomPlayers) {
+            boomPlayer.draw(g);
+        }
     }
 
     @Override
-    public void dropBomb() {
-        boom= Boom.getInstance(this.positionX, this.positionY+45);
-    }
-
-    @Override
-    public void deleteBoom(Boom boom) {
-
+    public BoomPlayer dropBoom() {
+        BoomPlayer boomPlayer = new BoomPlayer(this.positionX, this.positionY);
+        boomPlayers.add(boomPlayer);
+        return  boomPlayer;
     }
 }
