@@ -18,7 +18,7 @@ public class GameWindow extends Frame implements Runnable {
     ArrayList<ExplosiveBarrier> explosiveBarriers;
     Player player;
     Pirate pirate;
-
+    long startTime;
     public GameWindow() {// constructor
         this.setSize(750, 650);
         this.setTitle("Boom-Techkids");
@@ -90,24 +90,14 @@ public class GameWindow extends Frame implements Runnable {
                         player.speedX = 6;
                         break;
                     case KeyEvent.VK_SPACE:
-                        int count;
-                        BoomPlayer boomPlayer = player.dropBoom();
-                        for (ExplosiveBarrier explosiveBarrier : explosiveBarriers) {
-                            if (getDistance(explosiveBarrier.positionX + 45, explosiveBarrier.positionY + 45, boomPlayer.positionX + 45, boomPlayer.positionY + 45) <= 120) {
-                                boomPlayer.register(explosiveBarrier);// checking a distance before register
+                        if (player.boomPlayers.size() == 0) {
+                            startTime = System.currentTimeMillis();// starting count time here form time of droping bomb
+                            BoomPlayer boomPlayer = player.dropBoom();
+                            for (ExplosiveBarrier explosiveBarrier : explosiveBarriers) {
+                                if (getDistance(explosiveBarrier.positionX + 45, explosiveBarrier.positionY + 45, boomPlayer.positionX + 45, boomPlayer.positionY + 45) <= 120) {
+                                    boomPlayer.register(explosiveBarrier);// checking a distance before register
 
-                            }
-                        }
-                        break;
-                    case KeyEvent.VK_ENTER:// Pressing enter, then bomn explosive, then that bomb will notify to barrier object which is registered
-                        for (BoomPlayer boomPlayer1 : player.boomPlayers) {
-                            try {
-                                boomPlayer1.notifyBarrier();
-
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            } catch (InterruptedException e1) {
-                                e1.printStackTrace();
+                                }
                             }
                         }
                         break;
@@ -130,6 +120,20 @@ public class GameWindow extends Frame implements Runnable {
     public void gameUpdate() throws InterruptedException {
         player.update();
         pirate.update();
+        if (System.currentTimeMillis() - startTime>=2000){// calcuting time to explosive bomb here :))
+            for (BoomPlayer boomPlayer1 : player.boomPlayers) {
+                try {
+                    boomPlayer1.notifyBarrier();
+
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            player.boomPlayers.clear();// after explosiving barrier, then delete remove all bomb from arraylist :)
+        }
+
     }
 
     @Override
