@@ -78,22 +78,19 @@ public class GameWindow extends Frame implements Runnable {
                 //phim duoc an va giu
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP:
-                        player.speedY = -3;
-                        pirate.speedY = -3;
+                        player.speedY = -6;
                         break;
                     case KeyEvent.VK_LEFT:
-                        player.speedX = -3;
-                        pirate.speedX = -3;
+                        player.speedX = -6;
                         break;
                     case KeyEvent.VK_DOWN:
-                        player.speedY = 3;
-                        pirate.speedY = 3;
+                        player.speedY = 6;
                         break;
                     case KeyEvent.VK_RIGHT:
-                        player.speedX = 3;
-                        pirate.speedX = 3;
+                        player.speedX = 6;
                         break;
                     case KeyEvent.VK_SPACE:
+                        int count;
                         BoomPlayer boomPlayer = player.dropBoom();
                         for (ExplosiveBarrier explosiveBarrier : explosiveBarriers) {
                             if (getDistance(explosiveBarrier.positionX + 45, explosiveBarrier.positionY + 45, boomPlayer.positionX + 45, boomPlayer.positionY + 45) <= 120) {
@@ -121,8 +118,6 @@ public class GameWindow extends Frame implements Runnable {
             public void keyReleased(KeyEvent e) {
                 player.speedX = 0;
                 player.speedY = 0;
-                pirate.speedX = 0;
-                pirate.speedY = 0;
             }
         });// catch key and move
         try {
@@ -132,7 +127,7 @@ public class GameWindow extends Frame implements Runnable {
         }
     }
 
-    public void gameUpdate() {
+    public void gameUpdate() throws InterruptedException {
         player.update();
         pirate.update();
     }

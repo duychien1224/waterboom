@@ -26,7 +26,7 @@ public abstract class Character {
         }
     }
 
-    public void update() {
+    public void update() throws InterruptedException {
         this.positionX += this.speedX;
         this.positionY += this.speedY;
         if (speedX > 0) try {
